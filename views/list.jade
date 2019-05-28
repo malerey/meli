@@ -26,7 +26,7 @@ block content
               input#form-email(type='email', name="email", onblur='validateEmail(this)', onfocus='removeError(this)', placeholder='Ingrese un email')
               div.error_msg
                 span.display-none Debe ser un email válido
-            input(type='submit', value='Editar')
+            input#submit-btn(type='submit', disabled=true, value='Editar')
         i.fas.fa-window-close(onclick='closeModal(this)')
     .wrapper
       .user-list
@@ -53,36 +53,29 @@ block content
     script.
       closeModal = (e) => {
         e.parentNode.parentNode.classList.add("display-none")
-      }
+      };
       removeError = (e) => {
       e.classList.remove("error");
       e.nextElementSibling.firstChild.classList.add("display-none");
-      }
+      document.getElementById("submit-btn").disabled = false
+      };
       addError = (e) => {
       e.classList.add("error");
       e.nextElementSibling.firstChild.classList.remove("display-none");
-      }
+      document.getElementById("submit-btn").disabled = true
+      };
       validateName = (e) => {
       const validName = /^.{1,30}$/
       if (!validName.test(e.value)) addError(e)
-      }
+      };
       validatePhone = (e) => {
       const validNumber = /^[0-9]{1,}$/
       if (!validNumber.test(e.value)) addError(e)
-      }
+      };
       validateEmail = (e) => {
       const validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
        if (!validEmail.test(e.value)) addError(e)
-      }
-      validate = () => {
-      validateName(document.getElementById("form-name"))
-      validateName(document.getElementById("form-lastname"))
-      validatePhone(document.getElementById("form-phone"))
-      validateEmail(document.getElementById("form-email"))
-      if (!document.querySelector(".error")) {
-        document.getElementById("user-data").submit()
-      }
-      }
+      };
       filter = (e) => {
       const query = e.value.toLowerCase()
       const data = Array.from(document.getElementsByClassName("user-row"))
@@ -94,7 +87,7 @@ block content
       d.style.display = "none";
       }
       })
-      }
+      };
       edit = (e, i) => {
       document.querySelector(".modal").classList.remove("display-none")
       document.getElementById("form-name").value = document.querySelectorAll("#name")[i].textContent
@@ -102,10 +95,10 @@ block content
       document.getElementById("form-phone").value = document.querySelectorAll("#phone")[i].textContent
       document.getElementById("form-email").value = document.querySelectorAll("#email")[i].textContent
       document.getElementById("user-data").action = `edit/${i}`;
-      }
+      };
       remove = (e, i) => {
       e.parentNode.parentNode.remove()
       fetch(`/user/remove/${i}`, {
       method: 'DELETE', 
       })
-      }
+      };

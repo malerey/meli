@@ -46,8 +46,8 @@ self.addUser = (req, res, next) => {
     || !VALIDATIONS.VALID_NAME.test(req.body.lastname)
     || !VALIDATIONS.VALID_EMAIL.test(req.body.email)
     || !VALIDATIONS.VALID_PHONE.test(req.body.phone)) {
-    res.render('error', { error: { name: 'validation_error', status: 'error' } })
-    return;
+      res.render('error', {error: { name: 'validation_error', message: 'Hubo un error en la validación de los datos al editar usuario. Chequee que los datos enviados cumplan los requerimientos' }})
+      return;
   }
   else {
     userService.addUser(req.body).then(() => {
@@ -94,6 +94,13 @@ self.removeUser = (req, res, next) => {
  */
 
 self.editUser = (req, res, next) => {
+  if (!VALIDATIONS.VALID_NAME.test(req.body.name)
+    || !VALIDATIONS.VALID_NAME.test(req.body.lastname)
+    || !VALIDATIONS.VALID_EMAIL.test(req.body.email)
+    || !VALIDATIONS.VALID_PHONE.test(req.body.phone)) {
+    res.render('error', {error: { name: 'validation_error', message: 'Hubo un error en la validación de los datos al editar usuario. Chequee que los datos enviados cumplan los requerimientos' }})
+    return;
+  }
   userService.editUser(req.params.id, req.body).then(() => {
     res.redirect('/user/list');
   })
