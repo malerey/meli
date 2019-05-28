@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css?family=Arvo&display=swap');
+
+* {
+	box-sizing: border-box
+}
+
+body {
+	margin: 0;
+	font-family: 'Arvo', serif;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	height: 200px;
+	margin: 200px auto;
+}
+
+.modal {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-content {
+	background: #fff;
+	width: 700px;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	padding: 20px 0;
+
+}
+.wrapper {
+	display: flex;
+	height: 100vh;
+}
+
+.bg-image {
+	width: 50%;
+	height: 100%;
+	background-image: url("bg.jpg");
+	background-size: cover;
+	background-position: center;
+}
+
+.form {
+	width: 50%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.form form {
+	display: flex;
+	flex-direction: column;
+}
+
+.form-title {
+	margin-bottom: 15px;
+}
+
+.form input {
+	margin-top: 15px;
+	width: 350px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.05);
+  border: solid 1px #dfe2e6;
+	background-color: #ffffff;
+	padding: 15px;
+}
+
+.form input[type="submit"] {
+	align-self: flex-end;
+	width: 160px;
+	background-color: #29b1cc;
+	color: #fff;
+}
+
+.form input[type="submit"]:hover {
+	background-color: #62cbdf;
+	border: none;
+}
+
+.form input:disabled {
+	background-color: #62cbdf
+}
+
+.form label {
+	margin: 5px 0;
+	display: flex;
+	flex-direction: column;
+	font-size: 12px;
+}
+
+.error {
+	border: 1px solid red !important;
+}
+
+.error_msg {
+	height: 30px;
+	display: flex;
+	align-items: center;
+}
+
+.display-none {
+	display: none;
+}
+
+.user-list {
+  width: 70%;
+	height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+	padding: 20px;
+	margin: 0 auto;
+}
+
+.input {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.input input {
+  font-family: 'Arvo', serif;
+  border: 1px solid #dddddd;
+  padding: 8px;
+  width: 100%;
+}
+
+.users {
+  width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {background-color: #ddd;}
+
+i {
+	margin-right: 20px;
+}
+
+.actions {
+	padding: 0 20px;
+}

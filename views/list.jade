@@ -1,0 +1,111 @@
+extends layout
+
+block content
+    .modal.display-none
+      .modal-content
+        .form
+          form#user-data(method='post')
+            .form-title Editar usuario
+            label
+              span Nombre
+              input#form-name(type='text', name="name", onblur='validateName(this)', onfocus='removeError(this)', placeholder='Máx. 30 caracteres')
+              div.error_msg
+                span.display-none Debe tener un maximo de 30 caracteres
+            label
+              span Apellido
+              input#form-lastname(type='text', name="lastname", onblur='validateName(this)', onfocus='removeError(this)', placeholder='Máx. 30 caracteres')
+              div.error_msg
+                span.display-none Debe tener un maximo de 30 caracteres
+            label
+              span Teléfono
+              input#form-phone(type='number', name="phone", onblur='validatePhone(this)', onfocus='removeError(this)', placeholder='Sólo números')
+              div.error_msg
+                span.display-none Debe ingresar un número válido
+            label
+              span Email
+              input#form-email(type='email', name="email", onblur='validateEmail(this)', onfocus='removeError(this)', placeholder='Ingrese un email')
+              div.error_msg
+                span.display-none Debe ser un email válido
+            input(type='submit', value='Editar')
+        i.fas.fa-window-close(onclick='closeModal(this)')
+    .wrapper
+      .user-list
+        .input
+          input(type='text', placeholder='Filtrar', onkeyup='filter(this)')
+        .users
+          table
+            tbody
+              tr
+                th Nombre
+                th Apellido
+                th Teléfono
+                th Email
+                th Acciones
+                  each user, index in content
+                        tr.user-row
+                            td#name #{user.name}
+                            td#lastname #{user.lastname}
+                            td#phone #{user.phone}
+                            td#email #{user.email}
+                            td.actions
+                                i.far.fa-edit(onclick='edit(this, #{index})')
+                                i.fas.fa-trash-alt(onclick='remove(this, #{index})')
+    script.
+      closeModal = (e) => {
+        e.parentNode.parentNode.classList.add("display-none")
+      }
+      removeError = (e) => {
+      e.classList.remove("error");
+      e.nextElementSibling.firstChild.classList.add("display-none");
+      }
+      addError = (e) => {
+      e.classList.add("error");
+      e.nextElementSibling.firstChild.classList.remove("display-none");
+      }
+      validateName = (e) => {
+      const validName = /^.{1,30}$/
+      if (!validName.test(e.value)) addError(e)
+      }
+      validatePhone = (e) => {
+      const validNumber = /^[0-9]{1,}$/
+      if (!validNumber.test(e.value)) addError(e)
+      }
+      validateEmail = (e) => {
+      const validEmail = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+       if (!validEmail.test(e.value)) addError(e)
+      }
+      validate = () => {
+      validateName(document.getElementById("form-name"))
+      validateName(document.getElementById("form-lastname"))
+      validatePhone(document.getElementById("form-phone"))
+      validateEmail(document.getElementById("form-email"))
+      if (!document.querySelector(".error")) {
+        document.getElementById("user-data").submit()
+      }
+      }
+      filter = (e) => {
+      const query = e.value.toLowerCase()
+      const data = Array.from(document.getElementsByClassName("user-row"))
+      const result = data.forEach(d => {
+      if (query === "") {
+      d.style.display = "table-row";
+      }
+      else if (d.textContent.toLowerCase().indexOf(query) === -1) {
+      d.style.display = "none";
+      }
+      })
+      }
+      edit = (e, i) => {
+      document.querySelector(".modal").classList.remove("display-none")
+      document.getElementById("form-name").value = document.querySelectorAll("#name")[i].textContent
+      document.getElementById("form-lastname").value = document.querySelectorAll("#lastname")[i].textContent
+      document.getElementById("form-phone").value = document.querySelectorAll("#phone")[i].textContent
+      document.getElementById("form-email").value = document.querySelectorAll("#email")[i].textContent
+      document.getElementById("user-data").action = `edit/${i}`;
+      }
+      remove = (e, i) => {
+      e.parentNode.parentNode.remove()
+      fetch(`/user/remove/${i}`, {
+      method: 'DELETE', 
+      })
+      }
